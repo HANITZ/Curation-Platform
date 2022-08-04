@@ -21,7 +21,7 @@ export default function Login() {
           {/* header 추가 */}
           <title>로그인 | 지구-방위대</title>
         </Head>
-        
+
         <main>
           <LoginText>로그인</LoginText>
           <SnsLoginText>SNS 계정으로 로그인하기</SnsLoginText>
@@ -29,46 +29,41 @@ export default function Login() {
           {/* 카카오 로그인*/}
           <SnsLoginKakao>
             {!session && (
-              <ul>
-                <li>
-                  <a
-                    href={"/api/auth/signin"}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      signIn("kakao");
-                    }}
-                  >
-                    <Image src={KakaoImg} alt="Kakao" />
-                  </a>
-                </li>
-              </ul>
+              <a
+                href={"/api/auth/signin"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn("kakao");
+                }}
+              >
+                <Image src={KakaoImg} alt="Kakao" />
+              </a>
             )}
           </SnsLoginKakao>
 
           {/* 구글 로그인*/}
           <SnsLoginGoogle>
             {!session && (
-              <ul>
-                <li>
-                  <a
-                    href={"/api/auth/signin"}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      signIn("google");
-                    }}
-                  >
-                    <Image src={GoogleImg} alt="Google" />
-                  </a>
-                </li>
-              </ul>
+              <a
+                href={"/api/auth/signin"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn("google");
+                }}
+              >
+                <Image src={GoogleImg} alt="Google" />
+              </a>
             )}
           </SnsLoginGoogle>
 
           <SnsLoginNaver>
             {!session && (
               <a
-                className="btn btn-block social-btn kakao"
-                href={`${process.env.NAVER_AUTH_URL}`}
+                href={"/api/auth/signin"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  signIn("naver");
+                }}
               >
                 <Image src={NaverImg} alt="Naver" />
               </a>
