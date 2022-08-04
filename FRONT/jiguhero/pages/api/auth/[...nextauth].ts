@@ -18,8 +18,6 @@ export default NextAuth({
       clientSecret: process.env.NAVER_CLIENT_SECRET,
     }),
 
-
-
   ],
 
   secret: process.env.SECRET,
