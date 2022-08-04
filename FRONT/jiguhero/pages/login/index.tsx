@@ -4,8 +4,14 @@ import NaverImg from '/public/naver_login.png';
 import Image from 'node_modules/next/image';
 import Head from "node_modules/next/head"
 import styled from "styled-components"
+import * as React from 'react'
+import queryString from 'query-string';
+import axios from 'axios';
+
 
 export default function Login() {
+
+
   return (
     <>
       <LoginWrapper>
@@ -83,3 +89,7 @@ const SnsLoginNaver = styled('div')`
         align-items: center;
         width: 20rem;
 `
+function sendKakaoTokenToServer(access_token: any) {
+  throw new Error('Function not implemented.');
+}
+
