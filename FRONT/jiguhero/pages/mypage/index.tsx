@@ -11,7 +11,8 @@ import { blue } from "@mui/material/colors";
 import { Pagination } from "@mui/material";
 import { userInfo } from "os";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { missionPage,playedAreaPage } from "states/mypage";
+import { missionPage, playedAreaPage } from "states/mypage";
+import { signOut, useSession } from "next-auth/react";
 
 const Profile = styled("div")`
   display: flex;
@@ -132,6 +133,7 @@ interface Idata {
 }
 
 const Mypage = (user_id) => {
+  const { session } = useSession();
 
   const [data, setData] = useState<Idata>();
   useEffect(() => {
@@ -153,7 +155,7 @@ const Mypage = (user_id) => {
     return (
       <Profile>
         <BgImg>
-          <img alt="nitz" src='/IMG_1008.jpg'/>
+          <img alt="nitz" src='/IMG_1008.jpg' />
         </BgImg>
         <div>
           <p>빨강</p>
@@ -298,9 +300,14 @@ const Mypage = (user_id) => {
         )}
       </ButtonGroup>
       <Box>{tab ? <PlayingArea /> : <Mission />}</Box>
-      <ButtonFull  dColor={"#FF4848"} hColor={"#FF4848"}>
+
+
+      <ButtonFull onClick={() => signOut()} dColor={"#FF4848"} hColor={"#FF4848"}>
         로그아웃
       </ButtonFull>
+
+
+
     </EntireContainer>
   );
 };

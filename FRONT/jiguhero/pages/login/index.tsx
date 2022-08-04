@@ -16,6 +16,12 @@ export default function Login() {
   console.log(session)
   return (
     <>
+      {/* <p>{session?.user?.name}</p>
+      {session?.user ? (
+        <button type="button" onClick={() => signOut()}>
+          Logout
+        </button>
+      ) : (<></>)} */}
       <LoginWrapper>
         <Head>
           {/* header 추가 */}
