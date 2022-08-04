@@ -10,7 +10,9 @@ import { theme } from "pages/theme";
 import { blue } from "@mui/material/colors";
 import { Pagination } from "@mui/material";
 import { userInfo } from "os";
-
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { missionPage, playedAreaPage } from "states/mypage";
+import { signOut, useSession } from "next-auth/react";
 
 const Profile = styled("div")`
   display: flex;
@@ -131,20 +133,21 @@ interface Idata {
 }
 
 const Mypage = (user_id) => {
+  const { session } = useSession();
 
-  // const [data, setData] = useState<Idata>();
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await fetch(`http://43.200.54.174:8080/user/${user_id}`, {
-  //       headers: {
-  //         Accept: "*/*",
-  //       }
-  //     })
-  //     const json = await response.json();
-  //     setData(json);
-  //   })();
-  // }, []);
-
+  const [data, setData] = useState<Idata>();
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`http://localhost:3000/user/1`, {
+        headers: {
+          Accept: "*/*",
+        }
+      })
+      const json = await response.json();
+      setData(json);
+    })();
+  }, []);
+  console.log(data)
   // 탭 전환
   const [tab, setTab] = useState(true);
   // 프로필
@@ -152,7 +155,7 @@ const Mypage = (user_id) => {
     return (
       <Profile>
         <BgImg>
-          <img alt="nitz" src='/IMG_1008.jpg'/>
+          <img alt="nitz" src='/IMG_1008.jpg' />
         </BgImg>
         <div>
           <p>빨강</p>
@@ -170,7 +173,8 @@ const Mypage = (user_id) => {
     const MissionList = ["하나", "둘", "셋", "넷", "다섯", "여섯"];
     const remainder = MissionList.length % 3;
     const quot = parseInt(MissionList.length / 3);
-    const [page, setPage] = useState(1);
+    const page = useRecoilValue(missionPage)
+    const setPage = useSetRecoilState(missionPage)
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
       setPage(value);
     };
@@ -205,7 +209,9 @@ const Mypage = (user_id) => {
     ];
     const remainder = PlayedArea.length % 3;
     const quot = parseInt(PlayedArea.length / 3);
-    const [page, setPage] = useState(1);
+
+    const page = useRecoilValue(playedAreaPage)
+    const setPage = useSetRecoilState(playedAreaPage)
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
       setPage(value);
     };
@@ -294,9 +300,14 @@ const Mypage = (user_id) => {
         )}
       </ButtonGroup>
       <Box>{tab ? <PlayingArea /> : <Mission />}</Box>
-      <ButtonFull  dColor={"#FF4848"} hColor={"#FF4848"}>
+
+
+      <ButtonFull onClick={() => signOut()} dColor={"#FF4848"} hColor={"#FF4848"}>
         로그아웃
       </ButtonFull>
+
+
+
     </EntireContainer>
   );
 };
