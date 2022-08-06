@@ -8,7 +8,9 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import Knitz from "/public/IMG_1008.jpg";
 
-
+const BackCompo = styled(Backcomponents)`
+  margin-top: 10px;
+`
 const Block = styled('div')`
   margin: 0.5rem;
 `
@@ -165,7 +167,7 @@ export default function Mission() {
       </Head>
 
       {/* 모바일 뷰에서 뒤로가기 버튼! */}
-      <Backcomponents name='대원들의 임무'></Backcomponents>
+      <BackCompo name='대원들의 임무'></BackCompo>
 
       {/* contents! */}
       {/* 임무 버튼 그룹 */}
