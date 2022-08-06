@@ -16,12 +16,6 @@ export default function Login() {
   console.log(session)
   return (
     <>
-      {/* <p>{session?.user?.name}</p>
-      {session?.user ? (
-        <button type="button" onClick={() => signOut()}>
-          Logout
-        </button>
-      ) : (<></>)} */}
       <LoginWrapper>
         <Head>
           {/* header 추가 */}
@@ -35,6 +29,7 @@ export default function Login() {
           {/* 카카오 로그인*/}
           <SnsLoginKakao>
             {!session && (
+
               <a
                 href={"/api/auth/signin"}
                 onClick={(e) => {
@@ -50,6 +45,7 @@ export default function Login() {
           {/* 구글 로그인*/}
           <SnsLoginGoogle>
             {!session && (
+
               <a
                 href={"/api/auth/signin"}
                 onClick={(e) => {
@@ -65,6 +61,7 @@ export default function Login() {
           <SnsLoginNaver>
             {!session && (
               <a
+
                 href={"/api/auth/signin"}
                 onClick={(e) => {
                   e.preventDefault();

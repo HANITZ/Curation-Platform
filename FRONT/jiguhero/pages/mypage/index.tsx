@@ -133,8 +133,8 @@ interface Idata {
 }
 
 const Mypage = (user_id) => {
-  const { session } = useSession();
 
+  const { session } = useSession();
   const [data, setData] = useState<Idata>();
   useEffect(() => {
     (async () => {
@@ -305,9 +305,6 @@ const Mypage = (user_id) => {
       <ButtonFull onClick={() => signOut()} dColor={"#FF4848"} hColor={"#FF4848"}>
         로그아웃
       </ButtonFull>
-
-
-
     </EntireContainer>
   );
 };
