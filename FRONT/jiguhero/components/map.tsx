@@ -10,7 +10,6 @@ const MapDiv = styled('div')`
     z-index:1;
 `
 
-
 export default function KakaoMap() {
   const router = useRouter();
   const FullMap = (href) => {
@@ -59,5 +58,4 @@ export default function KakaoMap() {
     <MapDiv id="map" onClick={() => FullMap("/ecomarket")}>
     </MapDiv>
   )
-
 }

@@ -21,6 +21,7 @@
     "axios": "^0.27.2",
     "babel-plugin-styled-components": "^2.0.7",
     "install": "^0.13.0",
+    "moment": "^2.29.4",
     "next": "12.2.2",
     "next-auth": "^4.10.3",
     "next-images": "^1.8.4",
@@ -28,8 +29,6 @@
     "query-string": "^7.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-google-login": "^5.2.2",
-    "react-kakao-login": "^2.1.0",
     "react-slick": "^0.29.0",
     "recoil": "^0.7.4",
     "slick-carousel": "^1.8.1",
@@ -44,5 +43,4 @@
     "eslint-config-next": "12.2.2",
     "typescript": "4.7.4"
   }
-
 }

@@ -5,20 +5,30 @@ import Head from 'next/head';
 import React, { useState } from 'react';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useRouter } from 'next/router';
-import Image from "next/image";
-import Knitz from "/public/IMG_1008.jpg";
+import MissionLIST from "components/MissionLists"
 
 const BackCompo = styled(Backcomponents)`
   margin-top: 10px;
+  margin-bottom: 10px;
 `
 const Block = styled('div')`
   margin: 0.5rem;
+
 `
 const Content = styled('div')`
   display:flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+    @media screen and (min-width: 360px){
+        width:400px;
+    }
+    @media screen and (min-width: 550px){
+        width:500px;
+    }
+    @media screen and (min-width:700px){
+        width:620px;
+    }
 `
 const ButtonContent = styled('div')`
   display:flex;
@@ -26,6 +36,15 @@ const ButtonContent = styled('div')`
   align-items: center;
   justify-content: center;
   margin-top: 1.8rem;
+      @media screen and (min-width: 360px){
+        width:400px;
+    }
+    @media screen and (min-width: 550px){
+        width:500px;
+    }
+    @media screen and (min-width:700px){
+        width:620px;
+    }
 `
 const BoxSelect = styled('select')`
     border: #65ACE2 solid 1px;
@@ -49,30 +68,21 @@ const ButtonGroup = styled("div")`
   button {
     margin: 5px;
   }
-`;
-
-const List = styled('div')`
-  border: 1px solid #98C064;
-  border-radius: 15px;
-  width: 400px;
-  height: 150px;
-    display:flex;
-  flex-direction: row;
-  align-items: center;
-  overflow: hidden;
-
-`
-const ListImg = styled('div')`
-  width: 150px;
-  height: 150px;
-  border: 1px solid none;
-  float: left;
 `
 const ListContent = styled('div')`
-  width: 250px;
-  height: 150px;
-  border: 1px solid none;
-  float: left;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    @media screen and (min-width: 360px){
+        width:400px;
+    }
+    @media screen and (min-width: 550px){
+        width:500px;
+    }
+    @media screen and (min-width:700px){
+        width:620px;
+    }
 `
 
 //select Box
@@ -135,26 +145,6 @@ function ButtonBox() {
   )
 }
 
-//mission List
-function MissionList() {
-  return (
-    <>
-      <List>
-        <ListImg>
-          <Image
-            src={Knitz}
-            width='150px'
-            height='150px'
-          />
-        </ListImg>
-        <ListContent>
-          글씨
-        </ListContent>
-
-      </List>
-    </>
-  )
-}
 
 
 //전체 출력 페이지
@@ -188,9 +178,9 @@ export default function Mission() {
 
       {/* 임무 목록들 */}
       <Block>
-        <Content>
-          <MissionList />
-        </Content>
+        <ListContent>
+          <MissionLIST />
+        </ListContent>
       </Block>
     </>
   )

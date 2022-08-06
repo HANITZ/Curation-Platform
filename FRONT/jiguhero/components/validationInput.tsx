@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Button, TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
+// import { TextField } from "@mui/material";
 import { ButtonBorder, ButtonFull } from 'styles/styled';
 
 
@@ -111,7 +112,7 @@ export default function ConfirmValidationInput({
 
 //////styled-components
 const Container = styled('div')`
-  position: relative;
+  position: static;
 `;
 
 

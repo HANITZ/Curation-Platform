@@ -1,10 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
-<<<<<<< HEAD
 import NaverProvider from "next-auth/providers/naver"
-=======
->>>>>>> 9565074d85f2f458fe94c11bc5d59393dee0f07b
+
 
 export default NextAuth({
   providers: [
