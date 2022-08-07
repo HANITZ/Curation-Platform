@@ -3,6 +3,8 @@ import { Pagination } from "@mui/material";
 import { missionLists } from "states/mission";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import Link from "next/link";
 
 const MISSION = [
   {
@@ -96,12 +98,19 @@ export default function MissionLists() {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
+  const router = useRouter();
+  const missionDates = ({ mission_id }: { mission_id: number }) => {
+    router.push(`/mission/${mission_id}/details`)
+  }
   // console.log(MISSION.length)
 
   return (
     <>
       {MISSION.slice((page - 1) * 5, page * 5).map((item, index) => (
-        <MissionList key={index} {...item} />
+        <MissionList
+
+          key={index} {...item} />
+
       ))}
       <PagI
         count={remainder === 0 ? quot : quot + 1}
