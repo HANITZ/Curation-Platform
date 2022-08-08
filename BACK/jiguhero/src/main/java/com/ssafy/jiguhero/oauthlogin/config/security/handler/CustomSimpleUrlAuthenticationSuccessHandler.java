@@ -13,6 +13,9 @@ import com.ssafy.jiguhero.oauthlogin.repository.auth.TokenRepository;
 import com.ssafy.jiguhero.oauthlogin.service.auth.CustomTokenProviderService;
 
 import com.ssafy.jiguhero.service.UserService;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -53,16 +56,26 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
         clearAuthenticationAttributes(request, response);
 
         // Cookie 생성
-        Cookie cookie = new Cookie("refreshToken", tokenMapping.getRefreshToken());
-        // 만료기한 : 30일
-        cookie.setMaxAge(30 * 24 * 60 * 60);
-        // optional properties
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
+//        Cookie cookie = new Cookie("refreshToken", tokenMapping.getRefreshToken());
+//        // 만료기한 : 30일
+//        cookie.setMaxAge(30 * 24 * 60 * 60);
+//        // optional properties
+//        cookie.setSecure(true);
+//        cookie.setHttpOnly(true);
+//        cookie.setPath("/");
+//        cookie.setDomain("localhost");
+
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenMapping.getRefreshToken())
+                .domain("localhost")
+                .sameSite("None")
+                .secure(true)
+                .path("/")
+                .maxAge(30 * 24 * 60 * 60)
+                .build();
+
 
         // add cookie to response
-        response.addCookie(cookie);
+        response.setHeader("Set-Cookie", cookie.toString());
 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
@@ -81,9 +94,6 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
                             .build();
         tokenRepository.save(token);
 
-        System.out.println(userService.getUserByEmail(tokenMapping.getUserEmail()).getRole());
-        System.out.println(Role.REGISTER);
-
         UserDto user = userService.getUserByEmail(tokenMapping.getUserEmail());
 
         // 처음 로그인한 유저라면 quertParam에 key : REGISTER / value : REQUIRED 저장
@@ -93,7 +103,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
                     .queryParam("REGISTER", "REQUIRED")
                     .queryParam("email", user.getEmail())
                     .queryParam("userid", user.getUserId())
-                    .build().toUriString();
+                    .build().encode().toUriString();
         }
 
         // queryParam에 Access Token 저장
@@ -101,7 +111,7 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
                 .queryParam("token", tokenMapping.getAccessToken())
                 .queryParam("REGISTER", "DONE")
                 .queryParam("email", tokenMapping.getUserEmail())
-                .build().toUriString();
+                .build().encode().toUriString();
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
