@@ -12,21 +12,17 @@ import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { NextPageContext } from "node_modules/next/dist/shared/lib/utils";
 import { getCookies } from "cookies-next";
 import checkLogin from "./checkLogin";
+import loginAccess from "pages/api/login";
 
 export default function Login() {
   const { data: session, status } = useSession();
   const loading = status === "loading";
-  const router = useRouter()
-  const returnUrl = router.query.returnUrl
-
-
-  
+  const router = useRouter();
+  const returnUrl = router.query.returnUrl;
 
   return (
     <>
-    {session?.accessToken&&(
-      <p>{session.user.name}</p>
-    )}
+      {session?.accessToken && <p>{session.user.name}</p>}
       <LoginWrapper>
         <Head>
           {/* header 추가 */}
@@ -44,13 +40,23 @@ export default function Login() {
                   <a
                     onClick={(e) => {
                       e.preventDefault();
-                      signIn("kakao", {
-                        redirect:true,
-                        callbackUrl: `/`
-                      });
+                      // loginAccess()
+                      router.push(
+                        `http://localhost:8080/oauth2/authorize/kakao?redirect_uri=http://localhost:3000`
+                      );
+                      // signIn("kakao", {
+                      //   redirect:true,
+                      //   callbackUrl: `/`
+                      // });
                     }}
                   >
                     <Image src={KakaoImg} alt="Kakao" />
+                  </a>
+                  <h3>aaaaaaaaa</h3>
+                  <a
+                    href={`http://localhost:8080/oauth2/authorize/kakao?redirect_uri=http://localhost:3000`}
+                  >
+                    aa
                   </a>
                 </li>
               </ul>
@@ -65,10 +71,11 @@ export default function Login() {
                   <a
                     onClick={(e) => {
                       e.preventDefault();
-                      signIn("google", {
-                        redirect:true,
-                        callbackUrl: `/`
-                      });
+
+                      // signIn("google", {
+                      //   redirect:true,
+                      //   callbackUrl: `/`
+                      // });
                     }}
                   >
                     <Image src={GoogleImg} alt="Google" />
@@ -88,10 +95,18 @@ export default function Login() {
               </a>
             )}
           </SnsLoginNaver>
-          {session && <button onClick={()=>{signOut({
-            redirect: true,
-            callbackUrl: `http://localhost:3000/`
-          })}}>Logout</button>}
+          {session && (
+            <button
+              onClick={() => {
+                signOut({
+                  redirect: true,
+                  callbackUrl: `http://localhost:3000/`,
+                });
+              }}
+            >
+              Logout
+            </button>
+          )}
         </main>
       </LoginWrapper>
     </>
@@ -135,14 +150,3 @@ const SnsLoginNaver = styled("div")`
   align-items: center;
   width: 20rem;
 `;
-
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context)
-
-
-  return {
-    props: {
-      data: 1,
-    },
-  };
-}
