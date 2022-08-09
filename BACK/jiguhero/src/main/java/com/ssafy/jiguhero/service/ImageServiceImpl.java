@@ -1,8 +1,14 @@
 package com.ssafy.jiguhero.service;
 
 import com.ssafy.jiguhero.config.FileUploadProperties;
-import com.ssafy.jiguhero.data.dao.*;
-import com.ssafy.jiguhero.data.entity.*;
+import com.ssafy.jiguhero.data.dao.ImageDao;
+import com.ssafy.jiguhero.data.dao.MissionDao;
+import com.ssafy.jiguhero.data.dao.PlaceDao;
+import com.ssafy.jiguhero.data.dao.UserDao;
+import com.ssafy.jiguhero.data.entity.Image_Mission;
+import com.ssafy.jiguhero.data.entity.Image_Place;
+import com.ssafy.jiguhero.data.entity.Image_User;
+import com.ssafy.jiguhero.data.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -33,16 +39,14 @@ public class ImageServiceImpl implements ImageService {
     private final UserDao userDao;
     private final PlaceDao placeDao;
     private final MissionDao missionDao;
-    private final PromotionDao promotionDao;
 
     @Autowired
-    public ImageServiceImpl(FileUploadProperties fileUploadProperties, ImageDao imageDao, UserDao userDao, PlaceDao placeDao, MissionDao missionDao, PromotionDao promotionDao) {
+    public ImageServiceImpl(FileUploadProperties fileUploadProperties, ImageDao imageDao, UserDao userDao, PlaceDao placeDao, MissionDao missionDao) {
         this.dirPath = Paths.get(fileUploadProperties.getPath()).toAbsolutePath().normalize();
         this.imageDao = imageDao;
         this.userDao = userDao;
         this.placeDao = placeDao;
         this.missionDao = missionDao;
-        this.promotionDao = promotionDao;
     }
 
     @Override
@@ -121,18 +125,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String saveMissionImage(MultipartFile file, Long userId, Long missionId, int rep) {
-        if (rep == 1) { // 대표 이미지 등록일 경우
-            Image_Mission imageMission = imageDao.selectRepImageMission(missionDao.selectMissionById(missionId));
-            if (imageMission != null) { // 대표 이미지가 이미 등록되어 있을 경우
-                try {
-                    imageDao.deleteImageMission(imageMission);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
+    public String saveMissionImage(MultipartFile file, Long userId, Long missionId) {
         Map<String, String> map = saveImage(file, "mission");
 
         Image_Mission newImageMission = new Image_Mission();
@@ -142,34 +135,8 @@ public class ImageServiceImpl implements ImageService {
         newImageMission.setMission(missionDao.selectMissionById(missionId));
         newImageMission.setUser(userDao.selectUserById(userId));
         newImageMission.setRegtime(LocalDateTime.now());
-        if (rep == 1) newImageMission.setRep(true);
-        else newImageMission.setRep(false);
+        newImageMission.setRep(false); // 대표 이미지 X
         imageDao.insertImageMission(newImageMission);
-
-        return map.get("save_file");
-    }
-
-    @Override
-    public String savePromotionImage(MultipartFile file, Long promotionId) {
-        // 이미 이미지가 등록되어 있는지 확인
-        Promotion promotion = promotionDao.selectPromotion(promotionId);
-        Image_Promotion imagePromotion = imageDao.selectImagePromotion(promotion);
-        if (imagePromotion != null) { // 이미지가 이미 등록되어 있을 경우
-            try {
-                imageDao.deleteImagePromotion(imagePromotion);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        Map<String, String> map = saveImage(file, "promotion");
-
-        Image_Promotion newImagePromotion = new Image_Promotion();
-        newImagePromotion.setOriginFile(map.get("origin_file"));
-        newImagePromotion.setSaveFile(map.get("save_file"));
-        newImagePromotion.setSaveFolder(map.get("save_folder"));
-        newImagePromotion.setPromotion(promotion);
-        imageDao.insertImagePromotion(newImagePromotion);
 
         return map.get("save_file");
     }

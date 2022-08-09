@@ -30,7 +30,6 @@ public class MissionDto {
     private int failedPerson;
     private int likes;
     private int hits;
-    private String repImageURL;
     private List<String> imageURL = new ArrayList<>();
 
     private boolean likeCheck;

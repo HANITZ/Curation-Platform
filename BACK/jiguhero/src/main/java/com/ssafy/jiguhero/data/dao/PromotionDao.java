@@ -12,6 +12,4 @@ public interface PromotionDao {
     List<Promotion> selectPromotions();
 
     Promotion selectPromotion(Long promotionId);
-
-    Promotion insertPromotion(Promotion promotion);
 }

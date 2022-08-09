@@ -24,7 +24,6 @@ public class UserDto {
     private int point;
     private String provider;
     private String role;
-    private String imageURL;
 
     public static UserDto of(User userEntity) {
         UserDto userDto = ModelMapperUtils.getModelMapper().map(userEntity, UserDto.class);
