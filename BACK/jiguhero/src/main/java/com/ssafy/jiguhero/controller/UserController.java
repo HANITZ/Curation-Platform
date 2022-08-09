@@ -27,10 +27,9 @@ public class UserController {
 
     @ApiOperation(value = "user_id로 유저 정보를 조회해 반환한다.", response = UserDto.class)
     @GetMapping("/{user_id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("user_id") Long userId, HttpServletRequest request) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("user_id") Long userId) {
         UserDto result = userService.getUserById(userId);
-        String url = userService.getProfileImageURL(userId, request);
-        result.setImageURL(url);
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

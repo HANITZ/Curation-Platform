@@ -89,9 +89,9 @@ public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthen
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
         Token token = Token.builder()
-                .userEmail(tokenMapping.getUserEmail())
-                .refreshToken(tokenMapping.getRefreshToken())
-                .build();
+                            .userEmail(tokenMapping.getUserEmail())
+                            .refreshToken(tokenMapping.getRefreshToken())
+                            .build();
         tokenRepository.save(token);
 
         UserDto user = userService.getUserByEmail(tokenMapping.getUserEmail());

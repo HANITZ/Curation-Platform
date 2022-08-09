@@ -10,8 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -63,10 +61,6 @@ public class Mission {
     @Column(nullable = false)
     private int hits;
 
-    ///////////////////////////////////////////////////////////////////
-    @OneToMany(mappedBy = "mission")
-    List<Feed> feed = new ArrayList<>();
-    ///////////////////////////////////////////////////////////////////
     public static Mission of(MissionDto missionDto) {
         Mission missionEntity = ModelMapperUtils.getModelMapper().map(missionDto, Mission.class);
 
